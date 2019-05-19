@@ -20,6 +20,7 @@
             <div>
                 <button @click="saveEdit">Update</button>
                 <button @click="resetEdit">Cancel</button>
+                <button @click="deleteComment">Delete</button>
             </div>
         </div>
     </div>
@@ -60,6 +61,11 @@
                 this.$emit('comment-updated', {
                     'id': this.comment.id,
                     'body': this.data.body,
+                });
+            },
+            deleteComment() {
+                this.$emit('comment-deleted', {
+                    'id': this.comment.id,
                 });
             }
         }

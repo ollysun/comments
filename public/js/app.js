@@ -1790,6 +1790,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user: {
@@ -1825,6 +1826,11 @@ __webpack_require__.r(__webpack_exports__);
         'id': this.comment.id,
         'body': this.data.body
       });
+    },
+    deleteComment: function deleteComment() {
+      this.$emit('comment-deleted', {
+        'id': this.comment.id
+      });
     }
   }
 });
@@ -1841,6 +1847,20 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CommentItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommentItem */ "./resources/js/components/CommentItem.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1894,6 +1914,26 @@ __webpack_require__.r(__webpack_exports__);
         return element.id === $event.id;
       });
       this.comments[index].body = $event.body;
+    },
+    deleteComment: function deleteComment($event) {
+      var index = this.comments.findIndex(function (element) {
+        return element.id === $event.id;
+      });
+      this.comments.splice(index, 1);
+    },
+    saveComment: function saveComment() {
+      var newComment = {
+        id: this.comments[this.comments.length - 1].id + 1,
+        body: this.data.body,
+        edited: false,
+        created_at: new Date().toLocaleString(),
+        author: {
+          id: this.user.id,
+          name: this.user.name
+        }
+      };
+      this.comments.push(newComment);
+      this.data.body = '';
     }
   }
 });
@@ -19641,7 +19681,9 @@ var render = function() {
         _c("div", [
           _c("button", { on: { click: _vm.saveEdit } }, [_vm._v("Update")]),
           _vm._v(" "),
-          _c("button", { on: { click: _vm.resetEdit } }, [_vm._v("Cancel")])
+          _c("button", { on: { click: _vm.resetEdit } }, [_vm._v("Cancel")]),
+          _vm._v(" "),
+          _c("button", { on: { click: _vm.deleteComment } }, [_vm._v("Delete")])
         ])
       ]
     )
@@ -19677,6 +19719,38 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("div", [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.data.body,
+            expression: "data.body"
+          }
+        ],
+        staticClass: "border",
+        attrs: { placeholder: "Add a comment" },
+        domProps: { value: _vm.data.body },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.data, "body", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", [
+        _c("button", { on: { click: _vm.saveComment } }, [_vm._v("Save")]),
+        _vm._v(" "),
+        _c("button", [_vm._v("Cancel")])
+      ])
+    ]),
+    _vm._v(" "),
     _c(
       "div",
       _vm._l(_vm.comments, function(comment) {
@@ -19686,6 +19760,9 @@ var render = function() {
           on: {
             "comment-updated": function($event) {
               return _vm.updateComment($event)
+            },
+            "comment-deleted": function($event) {
+              return _vm.deleteComment($event)
             }
           }
         })
@@ -19694,7 +19771,14 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h2", [_vm._v("Comments")])])
+  }
+]
 render._withStripped = true
 
 
