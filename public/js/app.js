@@ -1887,6 +1887,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      data: {
+        body: ''
+      },
       comments: [{
         id: 1,
         body: "How's it going?",

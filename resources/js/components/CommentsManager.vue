@@ -39,6 +39,9 @@
         },
         data: function() {
             return {
+                data: {
+                    body: ''
+                },
                 comments: [
                     {
                         id: 1,
